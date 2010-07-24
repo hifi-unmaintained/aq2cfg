@@ -3,6 +3,7 @@ BIN = aq2cfg
 CFLAGS = -Iiup/include/
 LIBS = `pkg-config gtk+-2.0 --cflags --libs`
 IUPMAKE = iupgtk NO_DYNAMIC=Yes
+STRIP := strip
 
 ifdef WIN32
     CC = i586-mingw32msvc-gcc
@@ -17,7 +18,7 @@ endif
 all: iup/lib/$(PLATFORM)/libiup.a
 	$(CC) -o $(BIN) $(CFLAGS) main.c keyboard.c mouse.c iup/lib/$(PLATFORM)/libiup.a $(LIBS)
 
-release: all
+release: $(BIN)
 	$(STRIP) -s $(BIN)
 
 iup/lib/$(PLATFORM)/libiup.a:
