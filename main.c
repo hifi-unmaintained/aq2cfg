@@ -11,7 +11,22 @@ int main(int argc, char **argv)
 
     IupOpen(&argc, &argv);      
 
-    tabs = IupTabs(NULL);
+    tabs = IupTabs(
+        IupQuakeBindingLayout(),
+        IupQuakeMouseLayout(),
+        IupFill(),
+        IupFill(),
+        IupFill(),
+        NULL
+    );
+    IupStoreAttribute(tabs, "TABTITLE0", "Keyboard");
+    IupStoreAttribute(tabs, "TABTITLE1", "Mouse");
+    IupStoreAttribute(tabs, "TABTITLE2", "Audio");
+    IupStoreAttribute(tabs, "TABTITLE3", "Video");
+    IupStoreAttribute(tabs, "TABTITLE4", "Multiplayer");
+
+    IupStoreAttribute(tabs, "MARGIN", "2x2");
+
     buttons = IupHbox(
         IupSetCallbacks(IupButton("&Quit", "ACTION"), "ACTION", (Icallback)IupExitLoop, NULL),
         IupFill(),
@@ -29,31 +44,21 @@ int main(int argc, char **argv)
                         "EXPAND=YES, ALIGNMENT=ACENTER:ACENTER, FONT=\"sans-serif, Bold 18\""
                     ),
                     tabs,
-                    buttons,
+                    //buttons,
                     NULL
                 ),
-                "GAP=5"
+                "GAP=5, MARGIN=3x3"
             )
     );
 
-    IupSetAttribute(win, "TITLE", "Action Quake 2 Configuration");
-    IupSetAttribute(win, "RESIZE", "NO");
-
-    IupAppend(tabs, IupQuakeBindingLayout());
-    IupSetAttribute(tabs, "TABTITLE0", "Keyboard");
-
-    IupAppend(tabs, IupQuakeMouseLayout());
-    IupSetAttribute(tabs, "TABTITLE1", "Mouse");
-
-    IupAppend(tabs, IupFill());
-    IupSetAttribute(tabs, "TABTITLE2", "Audio");
-
-    IupAppend(tabs, IupFill());
-    IupSetAttribute(tabs, "TABTITLE3", "Video");
-
-    IupAppend(tabs, IupFill());
-    IupSetAttribute(tabs, "TABTITLE4", "Multiplayer");
+    IupStoreAttribute(win, "TITLE", "Action Quake 2 Configuration");
+    IupStoreAttribute(win, "RESIZE", "NO");
 
     IupShow(win);
+
+    /* bug? */
+    IupStoreAttribute(win, "SIZE", NULL);
+    IupRefresh(win);
+
     IupMainLoop();
 }
